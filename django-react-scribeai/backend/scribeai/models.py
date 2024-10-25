@@ -1,6 +1,6 @@
 from django.db import models
 
 # Might not need this??
-class Patient(models.Model):
-    name = models.CharField(max_length=120)
-    id = models.IntegerField(primary_key=True)
+class JsonPatientRecord(models.Model):
+    data = models.JSONField()  # Stores JSON data as a dictionary
+    created_at = models.DateTimeField(auto_now_add=True)

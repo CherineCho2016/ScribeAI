@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from .models import Patient
+from .models import JsonPatientRecord
 
-class PatientSerializer(serializers.ModelSerializer):
+class JsonRecordSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Patient
-        fields = ('name', 'id')
+        model = JsonPatientRecord
+        fields = '__all__'

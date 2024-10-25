@@ -1,14 +1,11 @@
-from django.shortcuts import render
-from rest_framework import viewsets
-from .serializers import PatientSerializer
-from .models import Patient
+from rest_framework import generics
+from .models import JsonPatientRecord
+from .serializers import JsonRecordSerializer
 
-from django.http import HttpResponse
+class JsonRecordList(generics.ListCreateAPIView):
+    queryset = JsonPatientRecord.objects.all()
+    serializer_class = JsonRecordSerializer
 
-def home(request):
-    return HttpResponse("Welcome to the Home Page!")
-# Create your views here.
-
-class TodoView(viewsets.ModelViewSet):
-    serializer_class = PatientSerializer
-    queryset = Patient.objects.all()
+class JsonRecordDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = JsonPatientRecord.objects.all()
+    serializer_class = JsonRecordSerializer
