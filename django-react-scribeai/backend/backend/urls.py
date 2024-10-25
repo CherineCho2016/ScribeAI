@@ -25,4 +25,5 @@ router.register(r'patients', views.TodoView, 'Patient')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('', views.home)
 ]
