@@ -17,21 +17,8 @@ header{
 }
 main{
   overflow-y: auto;
-  height: 80vh;
+  height: 75vh;
   padding: 0 10vw;
-}
-.user-input{
-  height: 9vh; 
-  margin: 0 10vw;
-  position: absolute; /* Positioning to grow upward */
-  bottom: 0; /* Align to the bottom */
-}
-textarea{
-  width: 50vw;
-  height: 90%;
-  margin-right: 10px;
-  resize: none; /* Disable resizing */
-  overflow-y: auto; /* Enable vertical scrolling */
 }
 form{
   position: relative;
@@ -40,6 +27,50 @@ form{
   overflow: hidden; /* Hide overflowing content */
   text-align: left;
 }
+.user-input{
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  max-height: 9vh; 
+  padding: 10px;
+  width: 60vw;
+  margin: 0 10vw;
+  position: absolute; /* Positioning to grow upward */
+  background-color: lightgray;
+  border-radius: 15px;
+}
+
+textarea{
+  width: 85%;
+  height: 90%;
+  font-size: 18px;
+  border-radius: inherit;
+  border: none;
+  background-color: lightgray;
+  margin: 0;
+  resize: none; /* Disable resizing */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+textarea:focus{
+  outline: none;
+  border: none;
+}
+.submit-button{
+  position: absolute;
+  right:0;
+  bottom:0;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 50%;
+}
+.submit-button:hover{
+  background-color: gray;
+  cursor: pointer;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 50%;
+}
+
 .App-header {
   background-color: #282c34;
   height: 10vh;
@@ -66,6 +97,7 @@ button{
   margin: 5%;
   font-size: 12px;
 }
+
 .App-link {
   color: #61dafb;
 }
