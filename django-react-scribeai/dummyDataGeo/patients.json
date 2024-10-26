@@ -1,0 +1,16 @@
+[
+    {
+        "id": 1,
+        "name": "John Doe",
+        "generalInfo": "Patient with chronic migraines",
+        "medicationInfo": "Currently prescribed with migraine medication",
+        "appointments": "Last appointment was on 2023-07-12"
+    },
+    {
+        "id": 2,
+        "name": "Jane Smith",
+        "generalInfo": "Patient with history of hypertension",
+        "medicationInfo": "Blood pressure medication",
+        "appointments": "Next appointment on 2023-08-20"
+    }
+ ]

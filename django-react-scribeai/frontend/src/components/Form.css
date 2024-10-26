@@ -1,0 +1,50 @@
+form{
+    position: relative;
+    display: flex;
+    height: 10vh; /* Fixed height for the container */
+    overflow: hidden; /* Hide overflowing content */
+    text-align: left;
+}
+.user-input{
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  max-height: 9vh; 
+  padding: 10px;
+  width: 60vw;
+  margin: 0 10vw;
+  position: absolute; /* Positioning to grow upward */
+  background-color: lightgray;
+  border-radius: 15px;
+}
+
+textarea{
+  width: 85%;
+  height: 90%;
+  font-size: 18px;
+  border-radius: 15px;
+  border: none;
+  background-color: lightgray;
+  margin: 0;
+  resize: none; /* Disable resizing */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+textarea:focus{
+  outline: none;
+  border: none;
+}
+.submit-button{
+  position: absolute;
+  right:0;
+  bottom:0;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 50%;
+}
+.submit-button:hover{
+  background-color: gray;
+  cursor: pointer;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 50%;
+}

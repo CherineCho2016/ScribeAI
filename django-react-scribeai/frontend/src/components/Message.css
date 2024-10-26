@@ -1,0 +1,14 @@
+.single-message-user{
+    display: flex;
+    flex-direction: row-reverse;
+    margin-top: 20px;
+}
+
+.single-message-text{
+    margin:0;
+}
+
+.single-message-bot{
+    display: flex;
+    margin-top: 20px;
+}

@@ -1,22 +1,25 @@
 import './App.css';
-import BookList from './Booklist.js';
+
+import Form from './components/Form.js';
+import Main from './components/Main.js';
 
 function App() {
       
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>DjangoReact</h1>
-      </header>
-      <div className="book-list">
-        <div>
-          <h2>Book name</h2>
-          <p>Author</p>
-          <p>Description</p>
-          <BookList></BookList>
+      <aside>
+        <button>
+          + New 
+        </button>
+      </aside>
+      <section className='right'>
+        <header className="App-header">
+          <h1>ScribeAI</h1>
+        </header>
+        <Main></Main>        
 
-        </div>
-      </div>
+      </section>
+      
     </div>
   );
 }
