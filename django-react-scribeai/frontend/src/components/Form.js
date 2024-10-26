@@ -20,7 +20,6 @@ const Form = () => {
   return (
     <form>
         <section className="user-input">
-          <label for="query"></label>
           <textarea
             ref={textareaRef}
             value={text}
