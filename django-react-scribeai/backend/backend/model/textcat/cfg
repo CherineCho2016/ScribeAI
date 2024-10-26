@@ -1,0 +1,18 @@
+{
+  "labels":[
+    "general",
+    "cardiovascular",
+    "anesthesia",
+    "pulmonary",
+    "neuro psych",
+    "infectious disease",
+    "hematology",
+    "gi or hepatic",
+    "renal",
+    "endocrinology",
+    "pregnancy",
+    "pediatrics"
+  ],
+  "threshold":0.0,
+  "positive_label":null
+}

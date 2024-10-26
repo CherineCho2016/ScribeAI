@@ -4,3 +4,4 @@ __pycache__/
 *.pyo
 Pipfile.lock
 .DS_Store
+django-react-scribeai/backend/Model

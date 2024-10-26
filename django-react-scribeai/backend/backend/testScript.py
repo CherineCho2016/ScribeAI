@@ -510,4 +510,4 @@ patientID = "b0a06ead-cc42-aa48-dad6-841d4aa679fa"
 # db.preopPulmonary(patientID)
 # db.preopNeuroPsych(patientID)
 # db.preopHematologyOncology(patientID)
-db.preopInfectiousDisease(patientID)
+# db.preopInfectiousDisease(patientID)
