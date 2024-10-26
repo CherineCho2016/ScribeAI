@@ -1,32 +1,66 @@
-import React, { useState, useEffect } from 'react';
-import BookList from './Booklist';
+import React, { useState } from 'react';
+import "./Main.css";
+
+import "./Message.css"
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+
+const UserMessage =  ({text})=> {
+      return (
+        <section class="single-message-user">
+          <div className="user-icon">
+              <FontAwesomeIcon icon={faUser} size="2x" />
+          </div>
+          <div>
+              <p className="single-message-text">{text}
+              User
+              </p>
+          </div>
+        </section>
+      );
+}
+const BotMessage =  ({text})=> {
+  return (
+    <section class="single-message-bot">
+      <div className="user-icon">
+          <FontAwesomeIcon icon={faUser} size="2x" />
+      </div>
+      <div>
+          <p className="single-message-text">{text}
+          Bot
+          </p>
+      </div>
+    </section>
+  );
+}
+
 
 function Main(){
-    
-    return (
+  const [messages, setMessages] = useState([])
+  
+  const addMessage = () => {
+    // Example of adding a new message
+    // where we would put the response 
+    const newMessage = {
+      text: "New dynamic message at " + new Date().toLocaleTimeString() + (messages.length + 1),
+      useUserStyle: messages.length % 2 == 0 // Alternate styles for odd/even
+    };
+    setMessages(prevMessages => [...prevMessages, newMessage]);
+  };
+
+    return (<>
         <main>
-          <div>
-            <p>Lorem ipsum odor amet, consectetuer adipiscing elit. Tempor dictum in adipiscing erat porttitor ultricies; feugiat mi. Morbi orci primis odio porta ante ornare venenatis dignissim convallis. Aliquam condimentum ligula ridiculus duis varius porta magna odio purus. Habitant potenti scelerisque interdum suscipit quam tempus facilisi mattis. Ac felis eleifend ad diam ultrices vulputate. Proin habitasse cursus magnis aenean nisi dis urna! Facilisis ad phasellus maximus vehicula curae ligula. Accumsan vivamus justo consectetur augue lobortis neque lobortis finibus in.
+            <button onClick={addMessage}>Add Message</button>
+            {messages.map((message, index) => (
+                (message.useUserStyle)?
+                (<UserMessage key={index} text={message.text} />):
+                (<BotMessage key={index} text={message.text} />)
 
-              Morbi nisi adipiscing est nulla dignissim ridiculus dapibus proin congue. Sem sit nisl placerat suspendisse adipiscing natoque elit. Lorem velit duis eu non; consequat molestie congue? Conubia himenaeos eget nec, est quisque tellus. Fermentum netus vulputate senectus torquent lacus suscipit urna duis. Aliquam turpis mus purus vulputate lobortis elementum ad. Nec dictumst mus mattis; augue tristique varius cubilia. Leo curabitur ornare dictum, tempus nunc hendrerit tincidunt fringilla ex. Morbi velit molestie primis dignissim; dapibus sodales.
-              Lorem ipsum odor amet, consectetuer adipiscing elit. Tempor dictum in adipiscing erat porttitor ultricies; feugiat mi. Morbi orci primis odio porta ante ornare venenatis dignissim convallis. Aliquam condimentum ligula ridiculus duis varius porta magna odio purus. Habitant potenti scelerisque interdum suscipit quam tempus facilisi mattis. Ac felis eleifend ad diam ultrices vulputate. Proin habitasse cursus magnis aenean nisi dis urna! Facilisis ad phasellus maximus vehicula curae ligula. Accumsan vivamus justo consectetur augue lobortis neque lobortis finibus in.
-
-              Morbi nisi adipiscing est nulla dignissim ridiculus dapibus proin congue. Sem sit nisl placerat suspendisse adipiscing natoque elit. Lorem velit duis eu non; consequat molestie congue? Conubia himenaeos eget nec, est quisque tellus. Fermentum netus vulputate senectus torquent lacus suscipit urna duis. Aliquam turpis mus purus vulputate lobortis elementum ad. Nec dictumst mus mattis; augue tristique varius cubilia. Leo curabitur ornare dictum, tempus nunc hendrerit tincidunt fringilla ex. Morbi velit molestie primis dignissim; dapibus sodales.
-              Lorem ipsum odor amet, consectetuer adipiscing elit. Tempor dictum in adipiscing erat porttitor ultricies; feugiat mi. Morbi orci primis odio porta ante ornare venenatis dignissim convallis. Aliquam condimentum ligula ridiculus duis varius porta magna odio purus. Habitant potenti scelerisque interdum suscipit quam tempus facilisi mattis. Ac felis eleifend ad diam ultrices vulputate. Proin habitasse cursus magnis aenean nisi dis urna! Facilisis ad phasellus maximus vehicula curae ligula. Accumsan vivamus justo consectetur augue lobortis neque lobortis finibus in.
-
-              Morbi nisi adipiscing est nulla dignissim ridiculus dapibus proin congue. Sem sit nisl placerat suspendisse adipiscing natoque elit. Lorem velit duis eu non; consequat molestie congue? Conubia himenaeos eget nec, est quisque tellus. Fermentum netus vulputate senectus torquent lacus suscipit urna duis. Aliquam turpis mus purus vulputate lobortis elementum ad. Nec dictumst mus mattis; augue tristique varius cubilia. Leo curabitur ornare dictum, tempus nunc hendrerit tincidunt fringilla ex. Morbi velit molestie primis dignissim; dapibus sodales.
-            </p>
-          </div>
-          
-          <div className="book-list">
-          <div>
-            <h2>Book name</h2>
-            <p>Author</p>
-            <p>Description</p>
-            <BookList></BookList>
-          </div>
-        </div>
+            ))}
         </main>
+        
+        </>
     );
 }
 
