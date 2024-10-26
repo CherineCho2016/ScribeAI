@@ -43,13 +43,16 @@ class DBQuery():
         return notes[-1]
 
     def preopCardiovascular(self, specific_id):
+        
         results = self.collection.find(
-            {"entry.resource.id": specific_id,
-             "entry.resource.code.coding.display": "Heart rate"},  # Filter by the specific ID
-            {
-                'entry.resource.valueQuantity': 1,  # Get only the 'data' field from 'presentedForm',    # Get effectiveDateTime
-            }
-        )
+        {
+            "entry.resource.id": specific_id,
+            "entry.resource.code.coding.display": "Heart rate"  # Filter for entries where the display is "Heart rate"
+        },
+        {
+            'entry.resource.valueQuantity': 1  # Include only the 'valueQuantity' field in the results
+        }
+    )
         for record in results:
             # Access the 'entry' field
             if 'entry' in record:
