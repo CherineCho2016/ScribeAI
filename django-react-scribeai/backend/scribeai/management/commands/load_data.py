@@ -4,9 +4,12 @@ from pymongo import MongoClient
 import gridfs
 
 # Connect to MongoDB
-client = MongoClient('mongodb://localhost:27017')
-db = client['JsonPatientData']  # Replace with your database name
-fs = gridfs.GridFS(db)  # Create a GridFS object
+
+client = MongoClient('mongodb+srv://jharwani:DvuNXzy9tmPPGCsC@cluster0.8f0gv.mongodb.net/')
+db = client['patients']
+collection = db['collection']
+
+fs = gridfs.GridFS(db)
 
 # Path to the folder containing JSON files
 folder_path = 'C:/ScribeAI/django-react-scribeai/backend/patientDataFolder/fhir'  # Update this path
