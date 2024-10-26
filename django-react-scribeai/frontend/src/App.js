@@ -16,9 +16,7 @@ function App() {
         <header className="App-header">
           <h1>ScribeAI</h1>
         </header>
-        <Main></Main>
-        <Form></Form>
-        
+        <Main></Main>        
 
       </section>
       

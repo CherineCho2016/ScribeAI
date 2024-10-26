@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import "./Main.css";
-
+import "./Form.css"; // Assuming you have a CSS file for styles
 import "./Message.css"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
 import io from 'socket.io-client';
 
@@ -39,45 +39,29 @@ const BotMessage =  ({text})=> {
   );
 }
 
-
 function Main(){
   const [messages, setMessages] = useState([])
   const [userInput, setUserInput] = useState("");
   
-  const addMessage = () => {
-    // Example of adding a new message
-    // where we would put the response 
-    const newMessage = {
-      text: "New dynamic message at " + new Date().toLocaleTimeString()+" "+ (messages.length + 1),
-      useUserStyle: messages.length % 2 === 0 // Alternate styles for odd/even
-    };
-    setMessages(prevMessages => [...prevMessages, newMessage]);
-  };
+  const [text, setText] = useState("");
   // Use useEffect to set up the socket listener
   
   useEffect(() => {
     // Function to handle incoming intent results
     const handleIncomingMessage = (result) => {
       console.log("Received result:", result); // Check what you're receiving
-
-        // Extract event name and data from the result
-      const eventName = result[0]; // Get the event name
-      const data = result[1]; // Get the data object
-
-      if (eventName === "receiveResponse") {
-        const intent = data.intent; // Extract the intent
-        const patientResults = data.results; // Extract the patient results
+      const { intent, results: patientResults } = result;
 
         // Prepare a message summarizing the intent and patient information
-        if (patientResults.length > 0) {
-            // If there are patient results, map through them
-            const newMessages = patientResults.map(patient => ({
-                text: `Patient: ${patient.name}\n
-                      General Info: ${patient.generalInfo}\n
-                      Appointments: ${patient.appointments}\n
-                      Medication Info: ${patient.medicationInfo}`,
-                useUserStyle: false // Assuming bot style for responses
-            }));
+        if (patientResults && patientResults.length > 0 ) {
+
+          const newMessages = patientResults.map(patient => ({
+            text: `Patient: ${patient.name}\n
+                  General Info: ${patient.generalInfo}\n
+                  Appointments: ${patient.appointments}\n
+                  Medication Info: ${patient.medicationInfo}`,
+            useUserStyle: false // Assuming bot style for responses
+          }));
             // Update the messages state with new patient messages
             setMessages((prevMessages) => [...prevMessages, ...newMessages]);
         } else {
@@ -87,55 +71,76 @@ function Main(){
                 useUserStyle: false // Assuming bot style for responses
             };
             // Update the messages state with the fallback message
+            console.log("no result")
             setMessages((prevMessages) => [...prevMessages, noResultsMessage]);
         }
-      }
+      
     };
 
-    // Listen for the "intentResult" event
-    socket.on("intentResult", handleIncomingMessage);
+    // Listen for the "receiveResponse" event
+    socket.on("receiveResponse", handleIncomingMessage);
+  
 
     // Cleanup function to remove the listener on unmount
     return () => {
-      socket.off("intentResult", handleIncomingMessage);
+      socket.off("receiveResponse", handleIncomingMessage);
+      socket.off("connect")
     };
 
   }, []); // Empty dependency array means this runs once on mount and cleanup on unmount
 
+  // from the form componenet
+  
+
   const sendMessage = (event) => {
     event.preventDefault(); // Prevent default form submission
-    if (userInput.trim()) { // Check for non-empty input
+    if (text.trim()) { // Check for non-empty input
         //update the message list based on our user input!!!
         const newMessage = {
-          text: new Date().toLocaleTimeString()+" "+ userInput,
+          text: new Date().toLocaleTimeString()+" "+ text,
           useUserStyle: true
         };
         setMessages((prevMessages) => [...prevMessages, newMessage])
-        socket.emit("sendUserInput", userInput); // Send user input to the server
-        setUserInput(""); // Clear the input field
+        socket.emit("sendUserInput", text); // Send user input to the server
+        setText(""); // Clear the input field
     }
   };
 
 
+  const textareaRef = useRef(null);
+
+  const handleInput = (e) => {
+    const textarea = textareaRef.current;
+    // Reset height to recalculate based on new content
+    textarea.style.height = "auto";
+    // Set height to scrollHeight to expand
+    textarea.style.height = `${textarea.scrollHeight}px`;
+    setText(e.target.value);
+  };
+
     return (<>
         <main>
-            <button onClick={addMessage}>Add Message</button>
             {messages.map((message, index) => (
                 (message.useUserStyle)?
                 (<UserMessage key={index} text={message.text} />):
                 (<BotMessage key={index} text={message.text} />)
             ))}
-
-            <form onSubmit={sendMessage}>
-                <input
-                    type="text"
-                    value={userInput}
-                    onChange={(e) => setUserInput(e.target.value)} // Update state on input change
-                    placeholder="Type your message..."
-                />
-                <button type="submit">Send</button>
-            </form>
         </main>
+
+        {/* from the Form class*/}
+        <form onSubmit={sendMessage}>
+        <section className="user-input">
+          <textarea
+            ref={textareaRef}
+            value={text}
+            onChange={handleInput}
+            name="query"
+            placeholder="Type here..."/>          
+            <button className="submit-button" type="submit" value="Submit">
+                <FontAwesomeIcon icon={faPaperPlane} style={{ width: '20px', height: '20px' }} />
+            </button>
+        </section>
+        </form>
         
         </>
     );

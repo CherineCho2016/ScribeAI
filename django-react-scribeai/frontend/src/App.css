@@ -10,6 +10,7 @@
 }
 
 .right{
+  background-color: #C9C9C9;
   width: 80vw;
 }
 header{
@@ -19,7 +20,7 @@ header{
 
 
 .App-header {
-  background-color: #282c34;
+  background-color: #222E50;
   height: 10vh;
   display: flex;
   flex-direction: column;
@@ -35,7 +36,7 @@ h1{
 }
 
 aside{
-  background-color: gray;
+  background-color: #222E50;
   width: 20vw;
   height:100vh;
 }

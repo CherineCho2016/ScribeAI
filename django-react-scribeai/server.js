@@ -63,9 +63,11 @@ app.post('/process', (req, res) => {
 // Socket.IO connection
 io.on('connection', (socket) => {
     console.log('New client connected');
+
     // socket.on('sendUserInput'...) listening for the "sendUserInput" event from the client, which
     // triggers when the client emits that event (e.g., socket.emit('sendUserInput', userMessage))
     socket.on('sendUserInput', async (message) => {
+        console.log('Received user input:', message);
         // Sending message to middleware and JSON processor via the API route
         const response = await fetch('http://localhost:5000/process', {
             method: 'POST',
