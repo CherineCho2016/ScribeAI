@@ -131,6 +131,56 @@ class DBQuery():
             response += "Patient is not a former smoker \n"
         response += "Most recent patient blood CO2 levels: " + str(bloodCO2[-1]) + " mmol/L \n"
         print(response)
+
+    def preopInfectiousDisease(self, specific_id):
+        response = "Infecious Disease Evaluation: \n"
+        hepCScreen = False
+        rubellaScreen = False
+        varicellaScreen = False
+        results = self.collection.find(
+        {
+            "entry.resource.id": specific_id
+        })
+
+        for record in results:
+        # Access the 'entry' field
+            if 'entry' in record:
+                for entry in record['entry']:
+                    if 'resource' in entry:
+                        resource = entry['resource']
+                        # Check if 'code' and 'coding' exist in the resource
+                        if 'code' in resource and 'coding' in resource['code']:
+                            for coding in resource['code']['coding']:
+                                # Check if the 'display' matches "Heart rate"
+                                if coding.get('display') == "Hepatitis C antibody test":
+                                    # Ensure 'valueQuantity' exists before accessing 'value'
+                                    hepCScreen = True
+                for entry in record['entry']:
+                    if 'resource' in entry:
+                        resource = entry['resource']
+                        # Check if 'code' and 'coding' exist in the resource
+                        if 'code' in resource and 'coding' in resource['code']:
+                            for coding in resource['code']['coding']:
+                                # Check if the 'display' matches "Heart rate"
+                                if coding.get('display') == "Rubella screening":
+                                    # Ensure 'valueQuantity' exists before accessing 'value'
+                                    rubellaScreen = True
+                for entry in record['entry']:
+                    if 'resource' in entry:
+                        resource = entry['resource']
+                        # Check if 'code' and 'coding' exist in the resource
+                        if 'code' in resource and 'coding' in resource['code']:
+                            for coding in resource['code']['coding']:
+                                # Check if the 'display' matches "Heart rate"
+                                if coding.get('display') == "Measurement of Varicella-zoster virus antibody":
+                                    # Ensure 'valueQuantity' exists before accessing 'value'
+                                    varicellaScreen = True
+        response += "Hepatitis C Screen = Performed \n" if hepCScreen else "Hepatitis C screen = Not Performed \n"
+        response += "Rubella screen = Performed \n" if rubellaScreen else "Rubella screen = Not Performed \n"
+        response += "Measurement of Varicella-zoster = Performed \n" if varicellaScreen else "Measurement of Varicella-zoster = Not Performed \n" 
+        print(response)
+        return response   
+    
     def preopNeuroPsych(self, specific_id):
         response = "Neurology/Psychology Evaluation: \n"
         depressionScreen = False
@@ -455,8 +505,9 @@ class DBQuery():
 db = DBQuery()
 patientID = "b0a06ead-cc42-aa48-dad6-841d4aa679fa"
 
-db.preopGeneral(patientID)
-db.preopCardiovascular(patientID)
-db.preopPulmonary(patientID)
-db.preopNeuroPsych(patientID)
-db.preopHematologyOncology(patientID)
+# db.preopGeneral(patientID)
+# db.preopCardiovascular(patientID)
+# db.preopPulmonary(patientID)
+# db.preopNeuroPsych(patientID)
+# db.preopHematologyOncology(patientID)
+db.preopInfectiousDisease(patientID)
