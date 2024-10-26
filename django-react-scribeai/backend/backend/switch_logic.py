@@ -1,45 +1,84 @@
 # backend/switch_logic.py
-from testScript import DBQuery  # Import DBQuery class from testScript
-from classifyModel_final import classify  # Import classify function from classify_model
-import classifyModel_final
-# Instantiate DBQuery
-db_query = DBQuery()
-patientID = "b0a06ead-cc42-aa48-dad6-841d4aa679fa"
+import asyncio
+from typing import Dict, Any
+from .testScript import DBQuery
+from .classifyModel_final import classify
 
-# Switch function to execute the right query based on the case
-def switch(case):
-    # Define a dictionary with case options, mapping cases to DBQuery methods
-    switch_dict = {
-        "general": lambda: db_query.preopGeneral(patientID),
-        "cardiovascular": lambda: db_query.preopCardiovascular(patientID),
-        "pulmonary": lambda: db_query.preopPulmonary(patientID),
-        "neurology": lambda: db_query.preopNeuroPsych(patientID),
-        "hematology": lambda: db_query.preopHematologyOncology(patientID),
-        "infectious_disease": lambda: db_query.preopInfectiousDisease(patientID),
-        # Add pediatrics handling if required by your project logic
-        "pediatrics": lambda: "Pediatrics query - No data fetch logic defined."
-    }
+class QueryProcessor:
+    def __init__(self):
+        print("[QueryProcessor] Initializing")
+        self.db_query = DBQuery()
+        self.patient_id = "b0a06ead-cc42-aa48-dad6-841d4aa679fa"
+        
+        # Define query mapping
+        self.query_handlers = {
+            "general": self.db_query.preopGeneral,
+            "cardiovascular": self.db_query.preopCardiovascular,
+            "pulmonary": self.db_query.preopPulmonary,
+            "neuro psych": self.db_query.preopNeuroPsych,
+            "hematology": self.db_query.preopHematologyOncology,
+            "infectious disease": self.db_query.preopInfectiousDisease,
+            "pediatrics": lambda x: "Pediatrics query - No data fetch logic defined."
+        }
+        print(f"[QueryProcessor] Available handlers: {list(self.query_handlers.keys())}")
 
-    # Default case if classification does not match any key
-    default = lambda: "Default case result: No matching case found."
+    def process_query(self, category: str) -> str:
+        print(f"[QueryProcessor] Processing category: {category}")
+        handler = self.query_handlers.get(category)
+        if handler:
+            try:
+                result = handler(self.patient_id)
+                print(f"[QueryProcessor] Handler executed successfully for {category}")
+                return result
+            except Exception as e:
+                error_msg = f"Error processing {category} query: {str(e)}"
+                print(f"[QueryProcessor] Error: {error_msg}")
+                return error_msg
+        return f"No handler available for category: {category}"
 
-    # Get the result based on the case, or use default if case not found
-    return switch_dict.get(case, default)()
+query_processor = QueryProcessor()
 
-# Function to classify text and fetch results based on the classification
-def classify_and_fetch(text):
-    # Get the category by classifying the input text
-    category = classify(text)
-    print(f"Classified category: {category}")
-    
-    # Pass the category to the switch function to get the relevant data
-    result = switch(category)
-    
-    # Return the result from the switch function
-    return result
+def classify_and_fetch(text: str) -> Dict[str, Any]:
+    try:
+        print(f"\n[SwitchLogic] Processing query: {text}")
+        
+        # Get the category using the classifier
+        category = classify(text)
+        print(f"[SwitchLogic] Classified as: {category}")
+        
+        # Get result from appropriate handler
+        result = query_processor.process_query(category)
+        print(f"[SwitchLogic] Got result for {category}")
+        
+        return {
+            "status": "success",
+            "category": category,
+            "result": result
+        }
+        
+    except Exception as e:
+        error_msg = f"Error in classify_and_fetch: {str(e)}"
+        print(f"[SwitchLogic] {error_msg}")
+        return {
+            "status": "error",
+            "error": error_msg,
+            "category": None,
+            "result": None
+        }
 
-# Example usage
-if __name__ == "__main__":
-    text = "Are there any signs of reduced blood flow, such as cold extremities or weak pulses?"
-    result = print(classify_and_fetch(text))
-    # print("Result from DB Query:", result)
+async def async_classify_and_fetch(text: str) -> Dict[str, Any]:
+    print(f"\n[SwitchLogic] Starting async processing: {text}")
+    try:
+        loop = asyncio.get_event_loop()
+        result = await loop.run_in_executor(None, classify_and_fetch, text)
+        print("[SwitchLogic] Async processing completed")
+        return result
+    except Exception as e:
+        error_msg = f"Error in async processing: {str(e)}"
+        print(f"[SwitchLogic] {error_msg}")
+        return {
+            "status": "error",
+            "error": error_msg,
+            "category": None,
+            "result": None
+        }

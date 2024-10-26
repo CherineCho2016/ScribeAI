@@ -1,5 +1,5 @@
 .App {
-  display: flex;
+  /* display: flex; */
   text-align: center;
 }
 
@@ -17,7 +17,17 @@ header{
   margin: 0 !important;
 }
 
-
+.new{
+  padding: 5%;
+    margin: 5%;
+    font-size: 14px;
+    background-color: transparent;
+    border: 1.5px solid white;
+    box-shadow: none;
+    color: white;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
+    font-weight: bold;
+}
 
 .App-header {
   background-color: #222E50;
@@ -28,8 +38,18 @@ header{
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  padding: .2rem;
 }
-
+.aside{
+  background-color: #222E50;
+    width: 20vw;
+    height: 90vh;
+    border-right: 2px solid black;
+    border-top: 1px solid black;
+}
+.wrapper{
+  display: flex;
+}
 h1{
   margin: 20px;
   font-size:35px;

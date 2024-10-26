@@ -42,7 +42,7 @@ class DBQuery():
                                 decoded_string = self.base64Convert(encoded_string)
                                 notes.append(decoded_string)
         response += notes[-1]
-        print(response)
+        return response
         return(response)
 
 
@@ -90,7 +90,7 @@ class DBQuery():
                                     if item.get("display") == "Systolic Blood Pressure":
                                         systolicBloodPressures.append(componentListItem.get("valueQuantity")["value"])
                 response += "Blood Pressure: " + str(systolicBloodPressures[-1]) + "/" + str(diastolicBloodPressures[-1]) + " mm[Hg] \n"
-                print(response)
+                return response
 
     def preopPulmonary(self, specific_id):
         response = "Pulmonary Evaluation: \n"
@@ -130,7 +130,7 @@ class DBQuery():
         else:
             response += "Patient is not a former smoker \n"
         response += "Most recent patient blood CO2 levels: " + str(bloodCO2[-1]) + " mmol/L \n"
-        print(response)
+        return response
 
     def preopInfectiousDisease(self, specific_id):
         response = "Infecious Disease Evaluation: \n"
@@ -178,7 +178,7 @@ class DBQuery():
         response += "Hepatitis C Screen = Performed \n" if hepCScreen else "Hepatitis C screen = Not Performed \n"
         response += "Rubella screen = Performed \n" if rubellaScreen else "Rubella screen = Not Performed \n"
         response += "Measurement of Varicella-zoster = Performed \n" if varicellaScreen else "Measurement of Varicella-zoster = Not Performed \n" 
-        print(response)
+        return response
         return response   
     
     def preopNeuroPsych(self, specific_id):
@@ -285,7 +285,7 @@ class DBQuery():
             response += "Generalized anxiety disorder 7 item (GAD-7) total score: " + str(gadScore) + "\n"
         if phq2Score != -1:
             response += "Patient Health Questionnaire 2 item (PHQ-2) total score:  " + str(phq2Score) + "\n"
-        print(response)
+        return response
 
 
     def preopHematologyOncology(self, specific_id):
@@ -500,7 +500,7 @@ class DBQuery():
             response += "Blood Glucose: " + str(bloodGlucose[-1]) + " mg/dL\n" if len(bloodGlucose) > 0 else ""
 
             # Print the response
-            print(response)
+            return response
 
 db = DBQuery()
 patientID = "b0a06ead-cc42-aa48-dad6-841d4aa679fa"

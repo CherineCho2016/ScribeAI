@@ -69,7 +69,7 @@ io.on('connection', (socket) => {
     socket.on('sendUserInput', async (message) => {
         console.log('Received user input:', message);
         // Sending message to middleware and JSON processor via the API route
-        const response = await fetch('http://localhost:5000/process', {
+        const response = await fetch('http://localhost:5001/process', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ userInput: message })                // input is as json body
@@ -83,5 +83,5 @@ io.on('connection', (socket) => {
     });
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
