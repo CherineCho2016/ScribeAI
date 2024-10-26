@@ -5,4 +5,5 @@ differnt terminal
 - cd into /django/frontend
 - run npm start
 
-<img width="1512" alt="image" src="https://github.com/user-attachments/assets/e763d8bd-561e-4180-9406-605d8c2b47a9">
+![image](https://github.com/user-attachments/assets/2de26fa2-d8f0-4be6-9174-67b86a23868d)
+
